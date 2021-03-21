@@ -25,6 +25,10 @@
         "phpunit/phpunit": "^8.0"
     },
     "autoload": {
+        "files":[
+            "src/Helpers/Crud.php",
+            "src/Helpers/HttpResponses.php"
+        ],
         "psr-4": {
             "Akira\\ResourceBoilerplate\\": "src"
         }
