@@ -1,0 +1,54 @@
+{
+    "name": "akira/api-boilerplate",
+    "description": "This will generate a powerfull laravel resource",
+    "keywords": [
+        "akira",
+        "api-boilerplate"
+    ],
+    "homepage": "https://github.com/kidiatoliny/api-boilerplate",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "kid",
+            "email": "kidiatoliny@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "^5.6 || ^6.0 || ^7.0||^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Akira\\ResourceBoilerplate\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Akira\\ResourceBoilerplate\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Akira\\ResourceBoilerplate\\ResourceBoilerplateServiceProvider"
+            ],
+            "aliases": {
+                "ResourceBoilerplate": "Akira\\ResourceBoilerplate\\ResourceBoilerplateFacade"
+            }
+        }
+    }
+}

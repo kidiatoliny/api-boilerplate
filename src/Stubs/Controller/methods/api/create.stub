@@ -1,0 +1,5 @@
+ public function index()
+    {
+        return getAll(new |MODEL|, '|RESOURCE|');
+    }
+}
