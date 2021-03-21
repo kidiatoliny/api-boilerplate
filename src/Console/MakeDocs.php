@@ -2,23 +2,23 @@
 
 namespace Akira\ResourceBoilerplate\Console;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
-
 use Illuminate\Filesystem\Filesystem;
 
 
+use Illuminate\Support\Facades\Artisan;
 use Akira\ResourceBoilerplate\Traits\ModelTrait;
 use Akira\ResourceBoilerplate\Traits\CommonTrait;
 
-
-class MakeModel extends Command
+class MakeDocs extends Command
 {
+
     use CommonTrait;
     use ModelTrait;
+    protected $signature = 'akira:docs';
 
-    protected $signature = 'akira:model {model}';
-
-    protected $description = 'Create a new Model';
+    protected $description = 'Create a new Api documentation';
 
     /**
      * The filesystem instance.
@@ -43,12 +43,6 @@ class MakeModel extends Command
 
     public function handle()
     {
-        if ($this->argument('model')) {
-            if ($this->isModelPathExist()) {
-                $this->modelExist();
-            } else {
-                $this->makeModel();
-            }
-        }
+        Artisan::call('vendor:publish --tag=idoc-config');
     }
 }

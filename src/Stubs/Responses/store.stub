@@ -1,0 +1,9 @@
+{
+    "success":"true",
+    "message":"Recurso foi criado com sucesso",
+    "status":201,
+    "data":{
+
+    }
+
+}

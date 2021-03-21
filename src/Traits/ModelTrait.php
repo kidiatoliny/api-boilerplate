@@ -4,18 +4,62 @@ namespace Akira\ResourceBoilerplate\Traits;
 
 use Illuminate\Support\Str;
 
-use Illuminate\Container\Container;
 
 trait ModelTrait
 {
 
+    /**
+     * Model Base namespace
+     *
+     * @return string
+     */
+    protected function modelBaseNameSpace()
+    {
+        return 'Models';
+    }
+
+    protected function modelNameSpace()
+    {
+        return $this->modelBaseNameSpace() . '\\' . $this->getModelName();
+    }
+
+    protected function modelBasePath()
+    {
+        return app_path('Models\\');
+    }
+
+    protected function modelPath()
+    {
+        return $this->modelBasePath() .  $this->getModelName() . '.php';
+    }
+    /**
+     * Replace Model namepsace with the current model namespace
+     *
+     * @param [stub] $stub
+     * @return namespace
+     */
+    protected function replaceModelNameSpace(&$stub)
+    {
+
+        $stub = str_replace(
+            '{{ namespacedModel }}',
+            $this->modelNameSpace(),
+            $stub
+        );
+
+        return $this;
+    }
+
+
+    /**
+     * Verify is Model Path exist
+     *
+     * @return boolean
+     */
     protected function isModelPathExist()
     {
-        $model = ucfirst(Str::camel($this->argument('model')));
 
-        $path = app_path('Models\\' .  $model . '.php');
-
-        if ($this->files->exists($path)) {
+        if ($this->files->exists($this->modelPath())) {
             return true;
         }
         return false;
@@ -32,12 +76,33 @@ trait ModelTrait
         $this->error('Model ' . $this->getModelName() . ' already exists');
     }
 
+
+
+    protected function modelCreated()
+    {
+        return $this->info('Model ' . $this->getModelName() . ' created');
+    }
+
+
+
+    protected function compileModelStub()
+    {
+        $stub = $this->getStub('Model/model');
+
+        $this->replaceClassName($stub, $this->getModelName())
+            ->replaceNameSpace($stub, $this->modelBaseNameSpace());
+
+        return $stub;
+    }
+
+
     protected function makeModel()
     {
         $this->files->put(
-            base_path('/app/Models/' . $this->getModelName() . '.php'),
-            $this->compileControllerStub()
+            $this->modelPath(),
+            $this->compileModelStub()
         );
-        $this->info('Model ' . $this->getModelName() . ' created');
+
+        $this->modelCreated();
     }
 }

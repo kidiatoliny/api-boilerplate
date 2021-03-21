@@ -2,17 +2,16 @@
 
 namespace Akira\ResourceBoilerplate\Console;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
+
+
 use Illuminate\Filesystem\Filesystem;
-
-
 use Illuminate\Support\Facades\Artisan;
-use Akira\ResourceBoilerplate\Traits\Scafold;
+
 
 class MakeScafold extends Command
 {
-
-    use Scafold;
 
     protected $signature = 'akira:scafold {model}';
 
@@ -42,9 +41,14 @@ class MakeScafold extends Command
     public function handle()
     {
         $this->modelname = $this->argument('model');
-        $command =  $this->modelname;
+        $command =  ucfirst($this->modelname);
 
-        Artisan::call('akira:controller ' . $command);
+        $migration = 'create_' . Str::snake(Str::plural($this->modelname)) . '_table';
+
         Artisan::call('akira:model ' . $command);
+        Artisan::call('akira:controller ' . $command);
+        Artisan::call('akira:responses ' . $command);
+        Artisan::call('make:resource ' . $command . 'Resource');
+        Artisan::call('make:migration ' . $migration);
     }
 }

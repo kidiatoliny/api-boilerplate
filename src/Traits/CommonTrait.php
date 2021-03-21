@@ -16,20 +16,24 @@ trait CommonTrait
     }
 
 
+    protected function stubVariable($variable)
+    {
+        return '{{ ' . $variable . ' }}';
+    }
+
+
     protected function replaceNameSpace(&$stub, $namespace)
     {
 
         $namespace = $this->getAppNameSpace() . $namespace;
-
-
-        $stub = str_replace('{{ namespace }}', $namespace, $stub);
+        $stub = str_replace($this->stubVariable('namespace'), $namespace, $stub);
 
         return $this;
     }
 
     protected function replaceRootNameSpace(&$stub)
     {
-        $stub = str_replace('{{ rootNamespace }}', $this->getAppNameSpace(), $stub);
+        $stub = str_replace($this->stubVariable('rootNamespace'), $this->getAppNameSpace(), $stub);
         return $this;
     }
 
@@ -37,33 +41,47 @@ trait CommonTrait
     {
         $className = ucwords(Str::camel($className));
 
-        $stub = str_replace('{{ class }}', $className, $stub);
+        $stub = str_replace($this->stubVariable('class'), $className, $stub);
 
         return $this;
     }
 
-    protected function replaceModelNameSpace(&$stub, $model)
+
+    protected function makeDirectory($path)
     {
-        $model = ucwords(Str::camel($model));
-
-        $modelNameSpaced = $this->getAppNameSpace() . 'Models\\' . $model;
-
-        $stub = str_replace('{{ namespacedModel }}', $modelNameSpaced, $stub);
-
-        return $this;
+        if (!$this->files->isDirectory($path)) {
+            $this->files->makeDirectory($path, 0777, true, true);
+        }
     }
 
-    protected function replaceModel(&$stub, $model)
+    protected function isDirectoryExist($path)
     {
-        $model = ucwords(Str::camel($model));
-        $stub = str_replace('{{ model }}', $model, $stub);
-        return $this;
+        if (!$this->files->exists($path)) {
+            return false;
+        }
+        return;
     }
 
-    protected function replaceModelVariable(&$stub, $model)
+    protected function getStub($stub)
     {
-        $model = Str::lower($model);
-        $stub = str_replace('{{ modelVariable }}', $model, $stub);
-        return $this;
+        return $this->files->get(__DIR__ . '/../Stubs/' . $stub . '.stub');
+    }
+
+    protected function getFolderStubs($folder)
+    {
+        return array_diff(scandir(__DIR__ . '/../Stubs/' . $folder), array('.', '..'));
+    }
+
+
+    protected function insertStubsIntoFiles()
+    {
+        $stubs = $this->getFolderStubs('Responses');
+
+        foreach ($stubs as $stub) {
+            $stb[] = explode('.', $stub);
+        }
+
+        return
+            $stb;
     }
 }

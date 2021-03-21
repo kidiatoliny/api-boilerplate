@@ -1,0 +1,7 @@
+Route::prefix({{ tableName }})->group(function () {
+    Route::get('/', [{{ controller }}::class, 'index']);
+    Route::post('/', [{{ controller }}::class, 'store']);
+    Route::get('/{id}', [{{ controller }}::class, 'show']);
+    Route::patch('/{id}', [{{ controller }}::class, 'update']);
+    Route::delete('/{id}', [{{ controller }}::class, 'destroy']);
+});

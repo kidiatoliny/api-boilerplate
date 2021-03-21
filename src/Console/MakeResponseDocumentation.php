@@ -2,23 +2,23 @@
 
 namespace Akira\ResourceBoilerplate\Console;
 
+
 use Illuminate\Console\Command;
-
 use Illuminate\Filesystem\Filesystem;
+use Akira\ResourceBoilerplate\Traits\ResponsesTrait;
 
 
-use Akira\ResourceBoilerplate\Traits\ModelTrait;
-use Akira\ResourceBoilerplate\Traits\CommonTrait;
 
 
-class MakeModel extends Command
+class MakeResponseDocumentation extends Command
 {
-    use CommonTrait;
-    use ModelTrait;
 
-    protected $signature = 'akira:model {model}';
+    use ResponsesTrait;
 
-    protected $description = 'Create a new Model';
+
+    protected $signature = 'akira:responses {model}';
+
+    protected $description = 'Create a new Api response documentation';
 
     /**
      * The filesystem instance.
@@ -43,12 +43,12 @@ class MakeModel extends Command
 
     public function handle()
     {
-        if ($this->argument('model')) {
-            if ($this->isModelPathExist()) {
-                $this->modelExist();
-            } else {
-                $this->makeModel();
-            }
+        $this->model = $this->argument('model');
+
+        if ($this->model) {
+            $this->createPathsIfIsNoExists();
         }
+        //  dd($this->compileResponseStub());
+        $this->makeResposes();
     }
 }

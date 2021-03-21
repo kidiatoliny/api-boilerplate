@@ -7,12 +7,12 @@ use Illuminate\Console\Command;
 
 
 use Illuminate\Filesystem\Filesystem;
-use Akira\ResourceBoilerplate\Traits\Scafold;
+
 use Akira\ResourceBoilerplate\Traits\ControllerTrait;
 
 class MakeController extends Command
 {
-    use Scafold;
+
     use ControllerTrait;
 
     protected $signature = 'akira:controller {model}';
