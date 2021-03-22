@@ -25,7 +25,7 @@ trait ModelTrait
 
     protected function modelBasePath()
     {
-        return app_path('Models\\');
+        return app_path('Models/');
     }
 
     protected function modelPath()

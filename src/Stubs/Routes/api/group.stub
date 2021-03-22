@@ -1,4 +1,4 @@
-Route::prefix({{ tableName }})->group(function () {
+Route::prefix('{{ tableName }}')->group(function () {
     Route::get('/', [{{ controller }}::class, 'index']);
     Route::post('/', [{{ controller }}::class, 'store']);
     Route::get('/{id}', [{{ controller }}::class, 'show']);

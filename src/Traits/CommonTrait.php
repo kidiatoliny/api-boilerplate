@@ -84,4 +84,9 @@ trait CommonTrait
         return
             $stb;
     }
+
+    protected function tableName()
+    {
+        return Str::pluralStudly(Str::kebab($this->getModelName()));
+    }
 }

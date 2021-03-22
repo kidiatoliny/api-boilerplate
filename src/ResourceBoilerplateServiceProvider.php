@@ -5,6 +5,7 @@ namespace Akira\ResourceBoilerplate;
 use Illuminate\Support\ServiceProvider;
 use Akira\ResourceBoilerplate\Console\MakeDocs;
 use Akira\ResourceBoilerplate\Console\MakeModel;
+use Akira\ResourceBoilerplate\Console\MakeRoute;
 use Akira\ResourceBoilerplate\Console\MakeScafold;
 use Akira\ResourceBoilerplate\ResourceBoilerplate;
 use Akira\ResourceBoilerplate\Console\MakeController;
@@ -29,6 +30,7 @@ class ResourceBoilerplateServiceProvider extends ServiceProvider
                 MakeModel::class,
                 MakeDocs::class,
                 MakeResponseDocumentation::class,
+                MakeRoute::class,
             ]);
             $this->publishes([
                 __DIR__ . '/../config/config.php' => config_path('resource-boilerplate.php'),

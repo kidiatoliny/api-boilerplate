@@ -25,10 +25,13 @@ trait ControllerTrait
         return app_path('Http\Controllers\\');
     }
 
-
+    protected function controllerUseStatement()
+    {
+        return 'use ' . $this->controllerNameSpace() . ';';
+    }
     protected function controllerNameSpace()
     {
-        return  $this->controllerBasePath() . $this->getControllerName();
+        return $this->getAppNameSpace() . $this->controllerBaseNameSpace() . '\\' . $this->getControllerName();
     }
 
     protected function controllerPath()

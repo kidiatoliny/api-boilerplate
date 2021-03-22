@@ -8,10 +8,16 @@ use Illuminate\Console\Command;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
+use Akira\ResourceBoilerplate\Traits\ModelTrait;
+use Akira\ResourceBoilerplate\Traits\CommonTrait;
+use Akira\ResourceBoilerplate\Traits\ControllerTrait;
 
 
 class MakeScafold extends Command
 {
+    use ModelTrait;
+    use CommonTrait;
+    use ControllerTrait;
 
     protected $signature = 'akira:scafold {model}';
 
@@ -43,12 +49,27 @@ class MakeScafold extends Command
         $this->modelname = $this->argument('model');
         $command =  ucfirst($this->modelname);
 
-        $migration = 'create_' . Str::snake(Str::plural($this->modelname)) . '_table';
+        $migrationName = 'create_' . $this->tableName() . '_table';
+
+        $this->info('Creating resources from the  ' . $this->getModelName() . '...');
 
         Artisan::call('akira:model ' . $command);
+        $this->info('Model ' . $this->getModelName() . ' created ...');
+
         Artisan::call('akira:controller ' . $command);
+        $this->info('Controller ' . $this->getControllerName() . ' created ...');
+
+        Artisan::call('akira:route ' . $command);
+        $this->info('Routes ' . $this->tableName() . ' created ...');
+
         Artisan::call('akira:responses ' . $command);
+        $this->info('Responses Docs ' . $this->tableName() . ' created ...');
+
         Artisan::call('make:resource ' . $command . 'Resource');
-        Artisan::call('make:migration ' . $migration);
+        $this->info('Resource ' . $this->getModelName() . 'Resource' . ' created ...');
+        Artisan::call('make:migration ' . $migrationName);
+        $this->info('Migration ' . $migrationName . ' created ...');
+
+        $this->info('All done 👌 !!!');
     }
 }

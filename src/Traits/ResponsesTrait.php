@@ -14,7 +14,7 @@ trait ResponsesTrait
 
     protected function basePath()
     {
-        return base_path('storage\\responses\\');
+        return base_path('storage/responses/');
     }
 
     protected function responsePathName()
