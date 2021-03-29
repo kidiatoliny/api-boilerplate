@@ -48,9 +48,8 @@ class MakeScafold extends Command
     {
         $this->modelname = $this->argument('model');
         $command =  ucfirst($this->modelname);
-
-        $migrationName = 'create_' . $this->tableName() . '_table';
-
+        $lower = Str::lower(Str::plural(Str::snake($this->modelname)));
+        $migrationName = 'create_' . Str::snake($lower) . '_table';
         $this->info('Creating resources from the  ' . $this->getModelName() . '...');
 
         Artisan::call('akira:model ' . $command);
