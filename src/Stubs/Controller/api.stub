@@ -43,6 +43,7 @@ class {{ class }} extends Controller
      * Display the specified {{ model }}.
      * @group {{ model }}
      * @authenticated
+     * @pathParam id integer required {{ model }} id
      * @responseFile responses/{{ responsepath }}/show.json
      * @param  $id
      * @return \Illuminate\Http\Response
@@ -62,6 +63,7 @@ class {{ class }} extends Controller
      * Update the specified {{ model }}.
      * @group {{ model }}
      * @authenticated
+     * @pathParam id integer required {{ model }} id
      * @responseFile responses/{{ responsepath }}/update.json
      * @param  \Illuminate\Http\Request  $request
      * @param  $id
@@ -74,7 +76,7 @@ class {{ class }} extends Controller
         $rules =[
 
         ];
-        //if null all fields are updated
+
         $fieldsToUpdate =[];
 
         return update(

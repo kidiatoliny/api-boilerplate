@@ -1,7 +1,12 @@
+
+
+/**
+ * {{ tableName }} Route Group
+ */
 Route::prefix('{{ tableName }}')->group(function () {
-    Route::get('/', [{{ controller }}::class, 'index']);
-    Route::post('/', [{{ controller }}::class, 'store']);
-    Route::get('/{id}', [{{ controller }}::class, 'show']);
-    Route::patch('/{id}', [{{ controller }}::class, 'update']);
-    Route::delete('/{id}', [{{ controller }}::class, 'destroy']);
+    Route::get('/', [{{ controller }}::class, 'index'])->middleware('api.permissions:browse_{{ tableName }}');
+    Route::post('/', [{{ controller }}::class, 'store'])->middleware('api.permissions:add_{{ tableName }}');
+    Route::get('/{id}', [{{ controller }}::class, 'show'])->middleware('api.permissions:read_{{ tableName }}');
+    Route::patch('/{id}', [{{ controller }}::class, 'update'])->middleware('api.permissions:edit_{{ tableName }}');
+    Route::delete('/{id}', [{{ controller }}::class, 'destroy'])->middleware('api.permissions:delete_{{ tableName }}');
 });
