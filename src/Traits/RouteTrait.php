@@ -2,6 +2,7 @@
 
 namespace Akira\ResourceBoilerplate\Traits;
 
+use Illuminate\Support\Str;
 use Akira\ResourceBoilerplate\Traits\ModelTrait;
 use Akira\ResourceBoilerplate\Traits\CommonTrait;
 use Akira\ResourceBoilerplate\Traits\ControllerTrait;
@@ -48,6 +49,7 @@ trait RouteTrait
         $stub = $this->getStub('Routes/api/group');
         $this->replaceTableName($stub)
             ->replaceController($stub)
+            ->replacePermission($stub)
             ->appendStubToApiRoutes($stub);
         return $stub;
     }
@@ -72,6 +74,14 @@ trait RouteTrait
     {
         $variable = $this->stubVariable('tableName');
         $value = $this->tableName();
+        $stub = str_replace($variable, $value, $stub);
+        return $this;
+    }
+    protected function replacePermission(&$stub)
+    {
+        $variable = $this->stubVariable('permission');
+        $lower = Str::lower(Str::plural(Str::snake($this->getModelName())));
+        $value = Str::snake($lower);
         $stub = str_replace($variable, $value, $stub);
         return $this;
     }
